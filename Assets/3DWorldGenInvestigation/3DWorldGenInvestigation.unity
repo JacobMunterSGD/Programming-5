@@ -366,7 +366,7 @@ MonoBehaviour:
   width: 50
   length: 50
   increment: 0.05
-  HeightDifference: 5
+  HeightDifference: 10
   timeBetweenCubes: 0.01
   colorMultiplier: 0.1
 --- !u!1 &1510749447
