@@ -13,6 +13,8 @@ public class BasicTerrainGeneration : MonoBehaviour
 
 	[SerializeField] float increment;
 
+	[SerializeField] int HeightDifference;
+
 	[SerializeField] float timeBetweenCubes;
 
 	List<GameObject> cubes = new();
@@ -62,7 +64,7 @@ public class BasicTerrainGeneration : MonoBehaviour
 		{
 			for (int l = 0; l < length; l++)
 			{
-				int height = (int)(Mathf.PerlinNoise((w + xRandOffset) * increment, (l+ yRandOffset) * increment) * 10);
+				int height = (int)(Mathf.PerlinNoise((w + xRandOffset) * increment, (l+ yRandOffset) * increment) * HeightDifference);
 
 				print(height);
 
