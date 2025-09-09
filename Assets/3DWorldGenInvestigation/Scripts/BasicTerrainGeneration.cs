@@ -8,7 +8,9 @@ public class BasicTerrainGeneration : MonoBehaviour
 
 	public GameObject cubePrefab;
 
-	[SerializeField] int width;
+    [Header("Grid")]
+
+    [SerializeField] int width;
 	[SerializeField] int length;
 
 	[SerializeField] float increment;
@@ -18,6 +20,11 @@ public class BasicTerrainGeneration : MonoBehaviour
 	[SerializeField] float timeBetweenCubes;
 
 	List<GameObject> cubes = new();
+
+    [Header("Visuals")]
+
+    [SerializeField] float colorMultiplier;
+
 
 	private void Start()
 	{
@@ -70,6 +77,14 @@ public class BasicTerrainGeneration : MonoBehaviour
 
 				GameObject cube = Instantiate(cubePrefab, new Vector3(w, height, l), Quaternion.identity);
 				cubes.Add(cube);
+
+				MeshRenderer mr = cube.GetComponent<MeshRenderer>();
+
+				float _colorMultiplier = 1 / (float)HeightDifference;
+
+				print(_colorMultiplier);
+
+				mr.material.color = new Color(height * _colorMultiplier, height * _colorMultiplier, height * _colorMultiplier);
 			}
 		}
 	}
