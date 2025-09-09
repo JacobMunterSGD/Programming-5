@@ -367,7 +367,7 @@ MonoBehaviour:
   width: 50
   length: 50
   increment: 0.05
-  timeBetweenCubes: 0.000001
+  timeBetweenCubes: 0.01
 --- !u!1 &1510749447
 GameObject:
   m_ObjectHideFlags: 0

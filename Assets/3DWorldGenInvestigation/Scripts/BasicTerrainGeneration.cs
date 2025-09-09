@@ -19,7 +19,7 @@ public class BasicTerrainGeneration : MonoBehaviour
 
 	private void Start()
 	{
-		GenerateCubesNC();
+		GenerateCubesNC(false);
 		//StartCoroutine(GenerateCubes());
 	}
 
@@ -40,7 +40,7 @@ public class BasicTerrainGeneration : MonoBehaviour
 		}
 	}
 
-	void GenerateCubesNC()
+	void GenerateCubesNC(bool isRandom)
 	{
 		foreach(GameObject c in cubes)
 		{
@@ -49,11 +49,20 @@ public class BasicTerrainGeneration : MonoBehaviour
 
 		cubes.Clear();
 
+		int xRandOffset = 0;
+		int yRandOffset = 0;
+
+		if (isRandom)
+		{
+            xRandOffset = Random.Range(-100, 100);
+            yRandOffset = Random.Range(-100, 100);
+        }
+
 		for (int w = 0; w < width; w++)
 		{
 			for (int l = 0; l < length; l++)
 			{
-				int height = (int)(Mathf.PerlinNoise(w * increment, l * increment) * 10);
+				int height = (int)(Mathf.PerlinNoise((w + xRandOffset) * increment, (l+ yRandOffset) * increment) * 10);
 
 				print(height);
 
@@ -67,8 +76,7 @@ public class BasicTerrainGeneration : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			print("works");
-			GenerateCubesNC();
+			GenerateCubesNC(true);
 		}
 	}
 
