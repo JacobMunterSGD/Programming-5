@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 // This script makes the terrain
 public class BasicTerrainGeneration : MonoBehaviour
@@ -15,19 +16,31 @@ public class BasicTerrainGeneration : MonoBehaviour
 
 	[SerializeField][Range(0, .2f)] float increment;
 
-	[SerializeField] [Range(0, 50)] int HeightDifference;
+	[SerializeField] [Range(0, 50)] int heightDifference;
 
-	List<GameObject> cubes = new();
-
-    [Header("Visuals")]
-
-    [SerializeField] float colorMultiplier;
+	[SerializeField] List<CubeInfo> cubes = new();
 
     [Header("BiomeData")]
     public AllBiomeData biomeData;
 
+    private float biomeGenerationIncrement;
+    private int amountOfBiomes;
+
 	private void Start()
 	{
+        amountOfBiomes = biomeData.BiomeList.Count - 1;
+        print(amountOfBiomes);
+
+        foreach(BiomeData _biomeData in biomeData.BiomeList)
+        {
+            if (_biomeData.Biome == Biomes.noBiome)
+            {
+                biomeGenerationIncrement = _biomeData.Increment;
+                break;
+			}
+        }
+
+
 		GenerateCubes();
 	}
 
@@ -37,16 +50,13 @@ public class BasicTerrainGeneration : MonoBehaviour
 
 		Vector2 RandOffset = GetRandomOffset();
 
-        // determine biomes
-        GenerateBiomes();
-
 		cubes = CreateCubes(false);
 
 		void ClearCurrentCubes()
 		{
-            foreach (GameObject c in cubes)
+            foreach (CubeInfo c in cubes)
             {
-                Destroy(c);
+                Destroy(c.CubeGameObject);
             }
 
             cubes.Clear();
@@ -60,34 +70,77 @@ public class BasicTerrainGeneration : MonoBehaviour
 			return new Vector2(xRandOffset, yRandOffset);
         }
 
-        List<GameObject> CreateCubes(bool generateBiome)
+        List<CubeInfo> CreateCubes(bool generateBiome)
         {
-            List<GameObject> tempCubes = new();
+            List<CubeInfo> tempCubes = new();
 
-            for (int w = 0; w < mapWidth; w++)
+            for (int _width = 0; _width < mapWidth; _width++)
             {
-                for (int l = 0; l < mapLength; l++)
+                for (int _length = 0; _length < mapLength; _length++)
                 {
-                    int height = (int)(Mathf.PerlinNoise((w + RandOffset.x) * increment, (l + RandOffset.y) * increment) * HeightDifference);
 
-                    GameObject cube = Instantiate(cubePrefab, new Vector3(w, height, l), Quaternion.identity);
-                    tempCubes.Add(cube);
+                    //new Vector3(_width + RandOffset.x, _length + RandOffset.y, 0);
 
-                    MeshRenderer mr = cube.GetComponent<MeshRenderer>();
+                    Biomes _tempBiome = GetBiome(new Vector2(_length, _width));
 
-                    float _colorMultiplier = 1 / (float)HeightDifference;
+                    float _tempIncrement = increment;
+                    int _tempHeightDifference = heightDifference;
+                    Color _tempColor = Color.white;
 
-                    mr.material.color = new Color(height * _colorMultiplier, height * _colorMultiplier, height * _colorMultiplier);
-                }
-            }
+                    foreach (BiomeData _BiomeData in biomeData.BiomeList)
+                    {
+                        if (_BiomeData.Biome == _tempBiome)
+                        {
+                            _tempIncrement = _BiomeData.Increment;
+                            _tempHeightDifference = _BiomeData.HeightDifference;
+                            _tempColor = _BiomeData.Color;
+                            break;
+						}
+                    }
+
+                    int height = (int)(Mathf.PerlinNoise((_width + RandOffset.x) * _tempIncrement, (_length + RandOffset.y) * _tempIncrement) * _tempHeightDifference);
+
+                    Vector3 position = new Vector3(_width, height, _length);
+
+                    GameObject _cube = Instantiate(cubePrefab, position, Quaternion.identity);
+
+                    CubeInfo newCube = new CubeInfo(_cube, position, _tempColor, _tempBiome);
+
+					tempCubes.Add(newCube);
+
+                    MeshRenderer mr = _cube.GetComponent<MeshRenderer>();
+                    mr.material.color = _tempColor;
+
+					//float _colorMultiplier = 1 / (float)heightDifference;
+					//mr.material.color = new Color(height * _colorMultiplier, height * _colorMultiplier, height * _colorMultiplier);
+				}
+			}
 
             return tempCubes;
         }
 
-        void GenerateBiomes()
-        {
+        Biomes GetBiome(Vector2 pos)
+		{
 
+            int biomeIndex = (int)(Mathf.PerlinNoise((pos.x + RandOffset.x) * biomeGenerationIncrement, (pos.y + RandOffset.y) * biomeGenerationIncrement) * amountOfBiomes);
+
+            foreach (BiomeData _biomeData in biomeData.BiomeList)
+            {
+                if (biomeData.BiomeList[biomeIndex + 1] == _biomeData)
+                {
+                    print(_biomeData.Biome);
+                    return _biomeData.Biome;
+				}
+            }
+
+            print("something's not working if we're here");
+            return Biomes.plains;
         }
+
+        //CubeInfo MakeCube()
+        //{
+
+        //}
 
     }
 

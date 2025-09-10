@@ -14,8 +14,8 @@ public class BiomeData
 {
     [SerializeField] string name;
 
-    [SerializeField] private BiomeList biome;
-    public BiomeList Biome
+    [SerializeField] private Biomes biome;
+    public Biomes Biome
     {
         set { biome = value; }
         get { return biome; }
@@ -33,11 +33,18 @@ public class BiomeData
     {
         get { return heightDifference; }
         set { heightDifference = value; }
-    }    
+    }
+
+    [SerializeField] Color color;
+	public Color Color
+	{
+		get { return color; }
+		set { color = value; }
+	}
 
 }
 
-public enum BiomeList
+public enum Biomes
 {
     noBiome,
     plains,
