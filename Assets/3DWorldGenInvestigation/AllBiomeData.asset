@@ -13,11 +13,19 @@ MonoBehaviour:
   m_Name: AllBiomeData
   m_EditorClassIdentifier: 
   BiomeList:
-  - name: test
+  - name: No Biome
     biome: 0
-    increment: 0
-    heightDifference: 0
-  - name: 
-    biome: 0
-    increment: 0
-    heightDifference: 0
+    increment: 0.0028
+    heightDifference: 3
+  - name: Plains
+    biome: 1
+    increment: 0.04
+    heightDifference: 6
+  - name: Mountains
+    biome: 2
+    increment: 0.03
+    heightDifference: 20
+  - name: Wasteland
+    biome: 3
+    increment: 0.1
+    heightDifference: 10

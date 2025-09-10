@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,14 +21,14 @@ public class BiomeData
         get { return biome; }
     }
 
-    [SerializeField] private float increment;
+    [SerializeField][Range(0, .2f)] private float increment;
     public float Increment
     {
         get { return increment; }  
         set { increment = value; }
     }
 
-    [SerializeField] private int heightDifference;
+    [SerializeField][Range(0, 50)] private int heightDifference;
     public int HeightDifference
     {
         get { return heightDifference; }

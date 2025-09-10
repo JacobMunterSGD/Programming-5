@@ -37,10 +37,10 @@ public class BasicTerrainGeneration : MonoBehaviour
 
 		Vector2 RandOffset = GetRandomOffset();
 
-        
+        // determine biomes
+        GenerateBiomes();
 
-        cubes = CreateCubes();
-        
+		cubes = CreateCubes(false);
 
 		void ClearCurrentCubes()
 		{
@@ -60,7 +60,7 @@ public class BasicTerrainGeneration : MonoBehaviour
 			return new Vector2(xRandOffset, yRandOffset);
         }
 
-        List<GameObject> CreateCubes()
+        List<GameObject> CreateCubes(bool generateBiome)
         {
             List<GameObject> tempCubes = new();
 
@@ -82,6 +82,11 @@ public class BasicTerrainGeneration : MonoBehaviour
             }
 
             return tempCubes;
+        }
+
+        void GenerateBiomes()
+        {
+
         }
 
     }
