@@ -363,12 +363,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cubePrefab: {fileID: 4710382292698817428, guid: 64a1e0e7da7677f42bc0a0663f9f162c, type: 3}
-  width: 50
-  length: 50
+  mapWidth: 50
+  mapLength: 50
   increment: 0.05
   HeightDifference: 10
-  timeBetweenCubes: 0.01
   colorMultiplier: 0.1
+  biomeData: {fileID: 11400000, guid: abec23ab822974d4fb9788e315bb4278, type: 2}
 --- !u!1 &1510749447
 GameObject:
   m_ObjectHideFlags: 0

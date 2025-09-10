@@ -1,8 +1,8 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script makes the terrain
 public class BasicTerrainGeneration : MonoBehaviour
 {
 
@@ -10,14 +10,12 @@ public class BasicTerrainGeneration : MonoBehaviour
 
     [Header("Grid")]
 
-    [SerializeField] int width;
-	[SerializeField] int length;
+    [SerializeField] int mapWidth;
+	[SerializeField] int mapLength;
 
-	[SerializeField] float increment;
+	[SerializeField][Range(0, .2f)] float increment;
 
-	[SerializeField] int HeightDifference;
-
-	[SerializeField] float timeBetweenCubes;
+	[SerializeField] [Range(0, 50)] int HeightDifference;
 
 	List<GameObject> cubes = new();
 
@@ -25,76 +23,81 @@ public class BasicTerrainGeneration : MonoBehaviour
 
     [SerializeField] float colorMultiplier;
 
+    [Header("BiomeData")]
+    public AllBiomeData biomeData;
 
 	private void Start()
 	{
-		GenerateCubesNC(false);
-		//StartCoroutine(GenerateCubes());
+		GenerateCubes();
 	}
 
-	IEnumerator GenerateCubes() // UPDATE WITH NEW CODE BEFORE USING AGAIN
+	void GenerateCubes()
 	{
-		for (int w = 0; w < width; w++)
+		ClearCurrentCubes();
+
+		Vector2 RandOffset = GetRandomOffset();
+
+        
+
+        cubes = CreateCubes();
+        
+
+		void ClearCurrentCubes()
 		{
-			for (int l = 0; l < length; l++)
-			{
-				int height = (int)(Mathf.PerlinNoise(w * increment, l * increment) * 10);
+            foreach (GameObject c in cubes)
+            {
+                Destroy(c);
+            }
 
-				print(height);
-
-				Instantiate(cubePrefab, new Vector3(w, height, l), Quaternion.identity);
-
-				yield return new WaitForSeconds(timeBetweenCubes);
-			}
-		}
-	}
-
-	void GenerateCubesNC(bool isRandom)
-	{
-		foreach(GameObject c in cubes)
-		{
-			Destroy(c);
-		}
-
-		cubes.Clear();
-
-		int xRandOffset = 0;
-		int yRandOffset = 0;
-
-		if (isRandom)
-		{
-            xRandOffset = Random.Range(-100, 100);
-            yRandOffset = Random.Range(-100, 100);
+            cubes.Clear();
         }
 
-		for (int w = 0; w < width; w++)
+		Vector2 GetRandomOffset()
 		{
-			for (int l = 0; l < length; l++)
-			{
-				int height = (int)(Mathf.PerlinNoise((w + xRandOffset) * increment, (l+ yRandOffset) * increment) * HeightDifference);
+            int xRandOffset = Random.Range(-100, 100);
+            int yRandOffset = Random.Range(-100, 100);
 
-				print(height);
+			return new Vector2(xRandOffset, yRandOffset);
+        }
 
-				GameObject cube = Instantiate(cubePrefab, new Vector3(w, height, l), Quaternion.identity);
-				cubes.Add(cube);
+        List<GameObject> CreateCubes()
+        {
+            List<GameObject> tempCubes = new();
 
-				MeshRenderer mr = cube.GetComponent<MeshRenderer>();
+            for (int w = 0; w < mapWidth; w++)
+            {
+                for (int l = 0; l < mapLength; l++)
+                {
+                    int height = (int)(Mathf.PerlinNoise((w + RandOffset.x) * increment, (l + RandOffset.y) * increment) * HeightDifference);
 
-				float _colorMultiplier = 1 / (float)HeightDifference;
+                    GameObject cube = Instantiate(cubePrefab, new Vector3(w, height, l), Quaternion.identity);
+                    tempCubes.Add(cube);
 
-				print(_colorMultiplier);
+                    MeshRenderer mr = cube.GetComponent<MeshRenderer>();
 
-				mr.material.color = new Color(height * _colorMultiplier, height * _colorMultiplier, height * _colorMultiplier);
-			}
-		}
-	}
+                    float _colorMultiplier = 1 / (float)HeightDifference;
+
+                    mr.material.color = new Color(height * _colorMultiplier, height * _colorMultiplier, height * _colorMultiplier);
+                }
+            }
+
+            return tempCubes;
+        }
+
+    }
 
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			GenerateCubesNC(true);
+			GenerateCubes();
 		}
 	}
+
+    [ContextMenu("Generate Cubes")]
+    public void GenerateCubesRandomly()
+    {
+        GenerateCubes();
+    }
 
 }
