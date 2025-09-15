@@ -40,7 +40,6 @@ public class BasicTerrainGeneration : MonoBehaviour
 			}
         }
 
-
 		GenerateCubes();
 	}
 
@@ -50,7 +49,9 @@ public class BasicTerrainGeneration : MonoBehaviour
 
 		Vector2 RandOffset = GetRandomOffset();
 
-		cubes = CreateCubes(false);
+		cubes = CreateCubes();
+
+        // NESTED FUNCTIONS FROM HERE
 
 		void ClearCurrentCubes()
 		{
@@ -70,7 +71,7 @@ public class BasicTerrainGeneration : MonoBehaviour
 			return new Vector2(xRandOffset, yRandOffset);
         }
 
-        List<CubeInfo> CreateCubes(bool generateBiome)
+        List<CubeInfo> CreateCubes()
         {
             List<CubeInfo> tempCubes = new();
 
@@ -136,11 +137,6 @@ public class BasicTerrainGeneration : MonoBehaviour
             print("something's not working if we're here");
             return Biomes.plains;
         }
-
-        //CubeInfo MakeCube()
-        //{
-
-        //}
 
     }
 
