@@ -29,7 +29,6 @@ public class BasicTerrainGeneration : MonoBehaviour
 	private void Start()
 	{
         amountOfBiomes = biomeData.BiomeList.Count - 1;
-        print(amountOfBiomes);
 
         foreach(BiomeData _biomeData in biomeData.BiomeList)
         {
@@ -129,7 +128,6 @@ public class BasicTerrainGeneration : MonoBehaviour
             {
                 if (biomeData.BiomeList[biomeIndex + 1] == _biomeData)
                 {
-                    print(_biomeData.Biome);
                     return _biomeData.Biome;
 				}
             }

@@ -18,16 +18,16 @@ MonoBehaviour:
     increment: 0.02
     heightDifference: 3
     color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
-  - name: Plains
-    biome: 1
-    increment: 0.04
-    heightDifference: 6
-    color: {r: 0.037554413, g: 0.6509434, b: 0, a: 1}
   - name: Wasteland
     biome: 3
     increment: 0.2
     heightDifference: 8
     color: {r: 0.3018868, g: 0, b: 0.03885665, a: 1}
+  - name: Plains
+    biome: 1
+    increment: 0.04
+    heightDifference: 6
+    color: {r: 0.01875427, g: 0.31132078, b: 0, a: 1}
   - name: Mountains
     biome: 2
     increment: 0.03
