@@ -41,3 +41,8 @@ public class CubeInfo
 	
 }
 
+public class CubeInfoGameobject : MonoBehaviour
+{
+	public CubeInfo cubeInfo;
+}
+

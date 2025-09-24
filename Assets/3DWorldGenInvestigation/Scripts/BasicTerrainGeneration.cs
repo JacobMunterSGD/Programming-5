@@ -102,11 +102,13 @@ public class BasicTerrainGeneration : MonoBehaviour
 
                     Vector3 position = new Vector3(_width, height, _length);
 
+
                     GameObject _cube = Instantiate(cubePrefab, position, Quaternion.identity);
 
-                    CubeInfo newCube = new CubeInfo(_cube, position, _tempColor, _tempBiome);
+                    CubeInfo newCubeInfo = new(_cube, position, _tempColor, _tempBiome);
+					_cube.AddComponent<CubeInfoGameobject>().cubeInfo = newCubeInfo;
 
-					tempCubes.Add(newCube);
+					tempCubes.Add(newCubeInfo);
 
                     MeshRenderer mr = _cube.GetComponent<MeshRenderer>();
                     mr.material.color = _tempColor;

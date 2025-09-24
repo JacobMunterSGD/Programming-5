@@ -205,8 +205,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939950429}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.38999048, y: 0.4262688, z: -0.21082874, w: -0.78851354}
-  m_LocalPosition: {x: 64.10766, y: 27.00497, z: 15.25914}
+  m_LocalRotation: {x: 0.25204983, y: -0.4514057, z: 0.13466452, w: 0.8453221}
+  m_LocalPosition: {x: 73.51068, y: 20.94631, z: 7.6110396}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -472,6 +472,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d25e9703159ecb41af540ba386beb12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selection: []
+  hasSelection: 0
+  averageSelectionPosition: {x: 0, y: 0, z: 0}
+  selectedRaiseHeight: 10
+  minMouseMovement: 15
+  selectionRadius: 2
+  selectionLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
