@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PickupCubes : MonoBehaviour
 {
@@ -15,29 +16,34 @@ public class PickupCubes : MonoBehaviour
 
     Vector3 lastMousePos;
 
-    [Header("Parameters")] // variables to change how it's used - come up with better name later
-	[SerializeField] int selectedRaiseHeight;
+    [Header("Parameters")]
+    [SerializeField] int selectedRaiseHeight;
     [SerializeField] float minMouseMovement;
 
     [SerializeField] float selectionRadius;
 
+    [SerializeField] float minSelectionRadius;
+    [SerializeField] float maxSelectionRadius;
+
     [SerializeField] LayerMask selectionLayer;
 
-    // TEMP
     Transform currentRaycastHitSpot;
+
+	[Header("Set Up References")]
+    [SerializeField] Slider selectionRadiusSlider;
 
 	private void Start()
 	{
 		hasSelection = false;
+        selectionRadiusSlider.minValue = minSelectionRadius;
+        selectionRadiusSlider.maxValue = maxSelectionRadius;
 	}
 
 	void Update()
     {
-        RaycastHit hit;
-
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
         {
 
 			GameObject hitGameObject = hit.transform.gameObject;
@@ -117,7 +123,7 @@ public class PickupCubes : MonoBehaviour
 		}
     }
 
-    void HighlightSelection(GameObject newCube)
+    void HighlightSelection(GameObject hitGameObject)
     {
         if (selection.Count >= 0)
         {
@@ -129,10 +135,8 @@ public class PickupCubes : MonoBehaviour
             selection.Clear();
         }
 
-        // add cubes to list based on the grab radius (right now just add one cube)
-        RaycastHit[] allSpheres = Physics.SphereCastAll(newCube.transform.position, selectionRadius, Vector3.forward, selectionRadius, selectionLayer);
-
-        currentRaycastHitSpot = newCube.transform;
+        RaycastHit[] allSpheres = Physics.SphereCastAll(hitGameObject.transform.position, selectionRadius, Vector3.forward, selectionRadius, selectionLayer);
+        currentRaycastHitSpot = hitGameObject.transform;
 
 		foreach (RaycastHit hit in allSpheres)
 		{
@@ -173,6 +177,11 @@ public class PickupCubes : MonoBehaviour
             mr.material.color = originalColour;
 		}
 
+    }
+
+    public void ChangeSelectionRadius(float sliderValue)
+    {
+        selectionRadius = sliderValue;
     }
 
 }
