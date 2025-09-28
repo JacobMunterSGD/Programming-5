@@ -104,8 +104,8 @@ public class PickupCubes : MonoBehaviour
 
         foreach (GameObject GO in selection)
         {
-			RaycastHit _hit;
             float yValue = GO.transform.position.y;
+			RaycastHit _hit;
 			if (Physics.Raycast(GO.transform.position, Vector3.down, out _hit, Mathf.Infinity, selectionLayer))
 			{
 				yValue = _hit.transform.position.y + selectedRaiseHeight;
